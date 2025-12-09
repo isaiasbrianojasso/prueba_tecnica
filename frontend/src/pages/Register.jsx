@@ -7,8 +7,8 @@ const Register = () => {
         name: '',
         email: '',
         password: '',
-        companyName: '', // Optional, for creating new company
-        companyId: '', // Optional, for joining existing company
+        companyName: '', // nombre de la compañia (para crear nueva)
+        companyId: '', // id de la compañia (para unirse a existente)
     });
     const [error, setError] = useState('');
     const { register } = useAuth();
@@ -21,6 +21,13 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        // Validar que al menos uno de los campos de empresa esté lleno
+        if (!formData.companyName.trim() && !formData.companyId.trim()) {
+            setError('Debes proporcionar un nombre de empresa (para crear nueva) o un ID de empresa (para unirte a una existente)');
+            return;
+        }
+
         const result = await register(formData);
         if (result.success) {
             navigate('/');
@@ -67,25 +74,28 @@ const Register = () => {
                         style={{ width: '100%', padding: '0.5rem' }}
                     />
                 </div>
+                <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                    Completa UNO de los siguientes campos:
+                </p>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>Nombre de Empresa (Nueva):</label>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}> Crear Empresa Nueva:</label>
                     <input
                         type="text"
                         name="companyName"
                         value={formData.companyName}
                         onChange={handleChange}
-                        placeholder="Dejar vacío si te unes a una existente"
+                        placeholder="Escribe el nombre de tu nueva empresa"
                         style={{ width: '100%', padding: '0.5rem' }}
                     />
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>ID de Empresa (Existente):</label>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}> O Unirse a Empresa Existente:</label>
                     <input
                         type="text"
                         name="companyId"
                         value={formData.companyId}
                         onChange={handleChange}
-                        placeholder="Dejar vacío si creas una nueva"
+                        placeholder="Ingresa el ID (UUID) de la empresa"
                         style={{ width: '100%', padding: '0.5rem' }}
                     />
                 </div>

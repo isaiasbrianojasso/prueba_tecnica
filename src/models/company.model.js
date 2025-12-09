@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-
+//El modelo para Compañia debe de tener como llave unica el UUID y no puede ser nulo
 module.exports = (sequelize) => {
   const Company = sequelize.define('Company', {
     id: {

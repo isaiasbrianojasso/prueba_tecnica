@@ -49,7 +49,11 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (data) => {
         try {
-            const response = await api.post('/auth/register', data);
+            // Filter out empty string values to avoid validation errors
+            const cleanData = Object.fromEntries(
+                Object.entries(data).filter(([, value]) => value !== '')
+            );
+            const response = await api.post('/auth/register', cleanData);
             const { token, user } = response.data;
 
             localStorage.setItem('token', token);

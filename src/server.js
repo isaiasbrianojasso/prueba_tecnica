@@ -1,4 +1,5 @@
 const app = require('./app');
+const db = require('./models');
 
 const PORT = process.env.PORT || 3000;
 const ENVIRONMENT = process.env.NODE_ENV || 'development';
@@ -6,8 +7,14 @@ const ENVIRONMENT = process.env.NODE_ENV || 'development';
 // Función para iniciar el servidor
 const startServer = async () => {
   try {
-    // Aquí iría la conexión a la base de datos
-    // await connectDatabase();
+    // Conectar y sincronizar la base de datos
+    await db.sequelize.authenticate();
+    console.log('✅ Conexión a PostgreSQL establecida correctamente.');
+
+    // Sincronizar modelos (crear tablas si no existen)
+    await db.sequelize.sync({ alter: true });
+    console.log('✅ Modelos sincronizados con la base de datos.');
+
     app.listen(PORT, () => {
       console.log(`
 ╔═══════════════════════════════════════════╗
