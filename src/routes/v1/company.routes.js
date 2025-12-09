@@ -5,7 +5,7 @@ const { body, param, query } = require('express-validator');
 
 // Middleware de autenticación y autorización
 const authenticate = require('../../middleware/auth.middleware');
-const authorize = require('../../middleware/auth.middleware');
+const { authorize } = require('../../middleware/authorize.middleware');
 const validate = require('../../middleware/validation.middleware');
 
 // Importar controlador

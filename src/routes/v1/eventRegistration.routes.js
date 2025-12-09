@@ -4,11 +4,11 @@ const router = express.Router({ mergeParams: true }); // mergeParams permite acc
 const { body, param, query } = require('express-validator');
 
 // Middleware
-const authenticate = require('../middleware/auth.middleware');
-const validate = require('../middleware/validation.middleware');
+const authenticate = require('../../middleware/auth.middleware');
+const validate = require('../../middleware/validation.middleware');
 
 // Controlador
-const registrationController = require('../controllers/registrations.controller');
+const registrationController = require('../../controllers/registrations.controller');
 
 // Validaciones
 const idValidation = [

@@ -1,112 +1,60 @@
-const express = require('express');
+const eventService = require('../services/event.service');
 
-const router = express.Router();
-const { body, param, query } = require('express-validator');
+const createEvent = async (req, res, next) => {
+  try {
+    const event = await eventService.create(req.body);
+    res.status(201).json(event);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Middleware
-const authenticate = require('../middleware/auth.middleware');
-const authorize = require('../middleware/authorize.middleware');
-const validate = require('../middleware/validation.middleware');
+const getAllEvents = async (req, res, next) => {
+  try {
+    const {
+      page, limit, companyId, dateFrom, dateTo, upcoming,
+    } = req.query;
+    const filters = {
+      companyId, dateFrom, dateTo, upcoming,
+    };
+    const result = await eventService.getAll(page, limit, filters);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Controlador
-const eventController = require('../controllers/events.controller');
+const getEventById = async (req, res, next) => {
+  try {
+    const event = await eventService.getById(req.params.id);
+    res.status(200).json(event);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Validaciones
-const eventValidation = [
-  body('title')
-    .trim()
-    .notEmpty()
-    .withMessage('El título es requerido')
-    .isLength({ max: 200 })
-    .withMessage('El título no puede exceder 200 caracteres'),
-  body('description')
-    .trim()
-    .optional()
-    .isLength({ max: 1000 })
-    .withMessage('La descripción no puede exceder 1000 caracteres'),
-  body('date')
-    .isISO8601()
-    .withMessage('Fecha inválida. Use formato ISO 8601'),
-  body('companyId')
-    .isUUID()
-    .withMessage('ID de empresa inválido')
-];
+const updateEvent = async (req, res, next) => {
+  try {
+    const event = await eventService.update(req.params.id, req.body);
+    res.status(200).json(event);
+  } catch (error) {
+    next(error);
+  }
+};
 
-const updateEventValidation = [
-  body('title')
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage('El título no puede estar vacío')
-    .isLength({ max: 200 })
-    .withMessage('El título no puede exceder 200 caracteres'),
-  body('description')
-    .optional()
-    .trim()
-    .isLength({ max: 1000 })
-    .withMessage('La descripción no puede exceder 1000 caracteres'),
-  body('date')
-    .optional()
-    .isISO8601()
-    .withMessage('Fecha inválida. Use formato ISO 8601')
-];
+const deleteEvent = async (req, res, next) => {
+  try {
+    const result = await eventService.delete(req.params.id);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-const idValidation = [
-  param('id').isUUID().withMessage('ID inválido')
-];
-
-// GET /events - Listar eventos (público o autenticado)
-router.get(
-  '/',
-  authenticate,
-  query('page').optional().isInt({ min: 1 }),
-  query('limit').optional().isInt({ min: 1, max: 100 }),
-  query('companyId').optional().isUUID(),
-  query('dateFrom').optional().isISO8601(),
-  query('dateTo').optional().isISO8601(),
-  query('upcoming').optional().isBoolean(),
-  validate,
-  eventController.getAllEvents
-);
-
-// GET /events/:id - Obtener evento específico
-router.get(
-  '/:id',
-  authenticate,
-  idValidation,
-  validate,
-  eventController.getEventById
-);
-
-// POST /events - Crear evento (solo ADMIN)
-router.post(
-  '/',
-  authenticate,
-  authorize(['ADMIN']),
-  eventValidation,
-  validate,
-  eventController.createEvent
-);
-
-// PUT /events/:id - Actualizar evento (solo ADMIN)
-router.put(
-  '/:id',
-  authenticate,
-  authorize(['ADMIN']),
-  idValidation,
-  updateEventValidation,
-  validate,
-  eventController.updateEvent
-);
-
-// DELETE /events/:id - Eliminar evento (solo ADMIN)
-router.delete(
-  '/:id',
-  authenticate,
-  authorize(['ADMIN']),
-  idValidation,
-  validate,
-  eventController.deleteEvent
-);
-
-module.exports = router;
+module.exports = {
+  createEvent,
+  getAllEvents,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+};

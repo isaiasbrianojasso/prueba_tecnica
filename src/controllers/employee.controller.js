@@ -1,136 +1,80 @@
-const express = require('express');
+const employeeService = require('../services/employee.service');
 
-const router = express.Router();
-const { body, param, query } = require('express-validator');
+const createEmployee = async (req, res, next) => {
+  try {
+    const employee = await employeeService.create(req.body);
+    res.status(201).json(employee);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Middleware
-const authenticate = require('../middleware/auth.middleware');
-const authorize = require('../middleware/authorize.middleware');
-const validate = require('../middleware/validation.middleware');
+const getAllEmployees = async (req, res, next) => {
+  try {
+    const {
+      page, limit, companyId, role,
+    } = req.query;
+    // If user is not ADMIN, force companyId to their own company
+    const filterCompanyId = req.user.role === 'ADMIN' ? companyId : req.user.companyId;
 
-// Controlador
-const employeeController = require('../controllers/employee.controller');
+    const result = await employeeService.getAll(filterCompanyId, role, page, limit);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Validaciones
-const employeeValidation = [
-  body('name')
-    .trim()
-    .notEmpty()
-    .withMessage('El nombre es requerido')
-    .isLength({ max: 100 })
-    .withMessage('El nombre no puede exceder 100 caracteres'),
-  body('email')
-    .isEmail()
-    .withMessage('Email inválido')
-    .normalizeEmail(),
-  body('password')
-    .optional()
-    .isLength({ min: 6 })
-    .withMessage('La contraseña debe tener al menos 6 caracteres'),
-  body('companyId')
-    .isUUID()
-    .withMessage('ID de empresa inválido'),
-  body('role')
-    .isIn(['ADMIN', 'EMPLOYEE'])
-    .withMessage('Rol inválido. Valores permitidos: ADMIN, EMPLOYEE')
-];
+const getEmployeeById = async (req, res, next) => {
+  try {
+    const employee = await employeeService.getById(req.params.id);
+    res.status(200).json(employee);
+  } catch (error) {
+    next(error);
+  }
+};
 
-const updateEmployeeValidation = [
-  body('name')
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage('El nombre no puede estar vacío')
-    .isLength({ max: 100 })
-    .withMessage('El nombre no puede exceder 100 caracteres'),
-  body('email')
-    .optional()
-    .isEmail()
-    .withMessage('Email inválido')
-    .normalizeEmail(),
-  body('password')
-    .optional()
-    .isLength({ min: 6 })
-    .withMessage('La contraseña debe tener al menos 6 caracteres'),
-  body('role')
-    .optional()
-    .isIn(['ADMIN', 'EMPLOYEE'])
-    .withMessage('Rol inválido. Valores permitidos: ADMIN, EMPLOYEE')
-];
+const updateEmployee = async (req, res, next) => {
+  try {
+    const employee = await employeeService.update(req.params.id, req.body);
+    res.status(200).json(employee);
+  } catch (error) {
+    next(error);
+  }
+};
 
-const idValidation = [
-  param('id').isUUID().withMessage('ID inválido'),
-];
+const deleteEmployee = async (req, res, next) => {
+  try {
+    const result = await employeeService.delete(req.params.id);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// GET /employees - Listar empleados (solo ADMIN o empleados de misma empresa)
-router.get(
-  '/',
-  authenticate,
-  authorize(['ADMIN']),
-  query('page').optional().isInt({ min: 1 }),
-  query('limit').optional().isInt({ min: 1, max: 100 }),
-  query('companyId').optional().isUUID(),
-  query('role').optional().isIn(['ADMIN', 'EMPLOYEE']),
-  validate,
-  employeeController.getAllEmployees,
-);
+const getEmployeeEvents = async (req, res, next) => {
+  try {
+    const events = await employeeService.getEmployeeEvents(req.params.id);
+    res.status(200).json(events);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// GET /employees/:id - Obtener empleado específico
-router.get(
-  '/:id',
-  authenticate,
-  idValidation,
-  validate,
-  employeeController.getEmployeeById,
-);
+const getEmployeeRegistrations = async (req, res, next) => {
+  try {
+    const registrations = await employeeService.getEmployeeRegistrations(req.params.id);
+    res.status(200).json(registrations);
+  } catch (error) {
+    next(error);
+  }
+};
 
-// POST /employees - Crear empleado (solo ADMIN)
-router.post(
-  '/',
-  authenticate,
-  authorize(['ADMIN']),
-  employeeValidation,
-  validate,
-  employeeController.createEmployee,
-);
-
-// PUT /employees/:id - Actualizar empleado (propio usuario o ADMIN)
-router.put(
-  '/:id',
-  authenticate,
-  idValidation,
-  updateEmployeeValidation,
-  validate,
-  employeeController.updateEmployee,
-);
-
-// DELETE /employees/:id - Eliminar empleado (solo ADMIN)
-router.delete(
-  '/:id',
-  authenticate,
-  authorize(['ADMIN']),
-  idValidation,
-  validate,
-  employeeController.deleteEmployee,
-);
-
-// Rutas adicionales
-// GET /employees/:id/events - Eventos a los que está registrado el empleado
-router.get(
-  '/:id/events',
-  authenticate,
-  idValidation,
-  validate,
-  employeeController.getEmployeeEvents,
-);
-
-// GET /employees/:id/registrations - Registros del empleado
-router.get(
-  '/:id/registrations',
-  authenticate,
-  idValidation,
-  validate,
-  employeeController.getEmployeeRegistrations,
-);
-
-module.exports = router;
+module.exports = {
+  createEmployee,
+  getAllEmployees,
+  getEmployeeById,
+  updateEmployee,
+  deleteEmployee,
+  getEmployeeEvents,
+  getEmployeeRegistrations,
+};

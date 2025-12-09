@@ -8,7 +8,7 @@ const authenticate = (req, res, next) => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         error: 'Acceso no autorizado',
-        message: 'Token de autenticación requerido'
+        message: 'Token de autenticación requerido',
       });
     }
 
@@ -22,28 +22,28 @@ const authenticate = (req, res, next) => {
       id: decoded.userId,
       email: decoded.email,
       role: decoded.role,
-      companyId: decoded.companyId
+      companyId: decoded.companyId,
     };
 
-    next();
+    return next();
   } catch (error) {
     if (error.name === 'JsonWebTokenError') {
       return res.status(401).json({
         error: 'Token inválido',
-        message: 'El token de autenticación no es válido'
+        message: 'El token de autenticación no es válido',
       });
     }
 
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         error: 'Token expirado',
-        message: 'El token ha expirado, por favor inicie sesión nuevamente'
+        message: 'El token ha expirado, por favor inicie sesión nuevamente',
       });
     }
 
     return res.status(500).json({
       error: 'Error de autenticación',
-      message: error.message
+      message: error.message,
     });
   }
 };
