@@ -216,7 +216,7 @@ const EventDetails = () => {
                                                     </div>
                                                 </div>
                                                 <span className={att.checkedIn ? styles.statusCheckedIn : styles.statusPending}>
-                                                    {att.checkedIn ? '✓ Checked In' : '⏳ Pendiente'}
+                                                    {att.checkedIn ? '✓ Checked In' : ' Pendiente'}
                                                 </span>
                                             </li>
                                         ))}

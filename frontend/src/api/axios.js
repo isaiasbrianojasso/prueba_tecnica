@@ -18,11 +18,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        // Handle 401 (Unauthorized) - Optional: Refresh token logic here
+
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            // window.location.href = '/login'; // Redirect to login
+            // window.location.href = '/login'; // redirige  a login
         }
         return Promise.reject(error);
     }

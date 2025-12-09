@@ -27,19 +27,13 @@ const register = async (data) => {
 
   let targetCompanyId = companyId;
 
-  // Si se proporciona nombre de empresa, crearla (para registro inicial de ADMIN)
+  // Si se proporciona nombre de empresa, buscar o crear
   if (companyName && !companyId) {
-    const existingCompany = await Company.findOne({ where: { name: companyName } });
-    if (existingCompany) {
-      const error = new Error('La empresa ya existe');
-      error.statusCode = 400;
-      throw error;
-    }
-    const newCompany = await Company.create({
-      name: companyName,
-      email, // Email de contacto inicial
+    const [company, created] = await Company.findOrCreate({
+      where: { name: companyName },
+      defaults: { name: companyName, email }
     });
-    targetCompanyId = newCompany.id;
+    targetCompanyId = company.id;
   }
 
   if (!targetCompanyId) {
