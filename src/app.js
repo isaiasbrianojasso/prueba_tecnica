@@ -38,7 +38,7 @@ app.use(cors({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // límite de 100 solicitudes por IP
+  max: 1000000000000, // límite de 100 solicitudes por IP
   message: {
     error: 'Demasiadas solicitudes desde esta IP',
     retryAfter: '15 minutos',

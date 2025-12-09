@@ -10,13 +10,12 @@ import RequireAuth from './components/RequireAuth';
 function App() {
     return (
         <>
-            <Navbar />
             <Routes>
-                {/* Public Routes */}
+                {/* Rutas publicas */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                {/* Protected Routes */}
+                {/* Rutas protegidas */}
                 <Route element={<RequireAuth />}>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/events/:id" element={<EventDetails />} />

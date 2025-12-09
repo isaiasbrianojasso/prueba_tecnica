@@ -9,21 +9,21 @@ const startServer = async () => {
   try {
     // Conectar y sincronizar la base de datos
     await db.sequelize.authenticate();
-    console.log('✅ Conexión a PostgreSQL establecida correctamente.');
+    // console.log(' Conexión a PostgreSQL establecida correctamente.');
 
     // Sincronizar modelos (crear tablas si no existen)
     await db.sequelize.sync({ alter: true });
-    console.log('✅ Modelos sincronizados con la base de datos.');
+    //console.log('Modelos sincronizados con la base de datos.');
 
     app.listen(PORT, () => {
       console.log(`
 ╔═══════════════════════════════════════════╗
 ║      API de Gestión de Eventos            ║
 ╠═══════════════════════════════════════════╣
-║  Entorno: ${ENVIRONMENT.padEnd(20)} ║
-║  Servidor: http://localhost:${PORT}    ║
-║  Health: http://localhost:${PORT}/health ║
-║ Iniciado: ${new Date().toLocaleString()} ║
+║  Entorno: ${ENVIRONMENT.padEnd(20)}       ║
+║  Servidor: http://localhost:${PORT}       ║
+║  Health: http://localhost:${PORT}/health  ║
+║ Iniciado: ${new Date().toLocaleString()}  ║
 ╚═══════════════════════════════════════════╝
       `);
     });

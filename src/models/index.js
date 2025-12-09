@@ -28,11 +28,11 @@ db.Event.belongsToMany(db.Employee, { through: db.EventRegistration, foreignKey:
 db.Employee.belongsToMany(db.Event, { through: db.EventRegistration, foreignKey: 'employeeId', as: 'registeredEvents' });
 
 // Relaciones directas con EventRegistration para consultas más detalladas
-db.Event.hasMany(db.EventRegistration, { foreignKey: 'eventId' });
-db.EventRegistration.belongsTo(db.Event, { foreignKey: 'eventId' });
+db.Event.hasMany(db.EventRegistration, { foreignKey: 'eventId', as: 'registrations' });
+db.EventRegistration.belongsTo(db.Event, { foreignKey: 'eventId', as: 'event' });
 
-db.Employee.hasMany(db.EventRegistration, { foreignKey: 'employeeId' });
-db.EventRegistration.belongsTo(db.Employee, { foreignKey: 'employeeId' });
+db.Employee.hasMany(db.EventRegistration, { foreignKey: 'employeeId', as: 'eventRegistrations' });
+db.EventRegistration.belongsTo(db.Employee, { foreignKey: 'employeeId', as: 'employee' });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

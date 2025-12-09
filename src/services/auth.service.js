@@ -60,6 +60,9 @@ const register = async (data) => {
   // Generar token
   const token = generateToken(employee);
 
+  // Obtener el nombre de la compañía
+  const company = await Company.findByPk(targetCompanyId, { attributes: ['name'] });
+
   return {
     user: {
       id: employee.id,
@@ -67,13 +70,18 @@ const register = async (data) => {
       email: employee.email,
       role: employee.role,
       companyId: employee.companyId,
+      companyName: company?.name || 'Sin empresa',
     },
     token,
   };
 };
-
+//obtenemos el nombre de la empresa al loguearse 
 const login = async (email, password) => {
-  const employee = await Employee.findOne({ where: { email } });
+  // Incluir la relación con Company para obtener el nombre
+  const employee = await Employee.findOne({
+    where: { email },
+    include: [{ model: Company, as: 'company', attributes: ['name'] }],
+  });
 
   if (!employee) {
     const error = new Error('Credenciales inválidas');
@@ -97,6 +105,7 @@ const login = async (email, password) => {
       email: employee.email,
       role: employee.role,
       companyId: employee.companyId,
+      companyName: employee.company?.name || 'Sin empresa',
     },
     token,
   };

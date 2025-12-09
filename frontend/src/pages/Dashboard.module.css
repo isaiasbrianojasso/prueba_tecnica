@@ -1,0 +1,331 @@
+/* Dashboard.module.css */
+
+/* Container */
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.headerInfo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #f7fafc;
+}
+
+.headerInfo span {
+    font-size: 0.9rem;
+    color: #a0aec0;
+}
+
+/* Navigation */
+.nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.navButton {
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.navButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navButtonActive {
+    padding: 0.5rem 1rem;
+    background-color: rgba(102, 126, 234, 0.3);
+    color: white;
+    border: 1px solid #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.logoutButton {
+    padding: 0.5rem 1rem;
+    background-color: rgba(220, 53, 69, 0.8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.logoutButton:hover {
+    background-color: #dc3545;
+}
+
+/* Main Content */
+.main {
+    padding: 0 2rem 2rem;
+}
+
+.sectionTitle {
+    margin-bottom: 1.5rem;
+    color: #f7fafc;
+    font-size: 1.5rem;
+}
+
+/* Loading and Error */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #a0aec0;
+}
+
+.error {
+    color: #fc8181;
+    padding: 1rem;
+    background-color: rgba(245, 101, 101, 0.15);
+    border: 1px solid rgba(245, 101, 101, 0.3);
+    border-radius: 12px;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emptyState p {
+    font-size: 1.2rem;
+    color: #a0aec0;
+    margin-bottom: 1rem;
+}
+
+.createFirstButton {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.createFirstButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+}
+
+/* Events Grid */
+.eventsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Event Card */
+.eventCard {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.eventCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.eventCard h3 {
+    margin: 0 0 0.5rem;
+    color: #f7fafc;
+    font-size: 1.25rem;
+}
+
+.eventDate {
+    color: #667eea;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.eventLocation {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.eventDescription {
+    color: #cbd5e0;
+    margin: 1rem 0;
+    line-height: 1.5;
+}
+
+.viewDetailsLink {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.viewDetailsLink:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Create Event Form */
+.createFormContainer {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.companyInfo {
+    padding: 1rem;
+    background-color: rgba(102, 126, 234, 0.15);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.companyInfo span:first-child {
+    font-weight: bold;
+    color: #667eea;
+}
+
+.companyInfo span:last-child {
+    color: #f7fafc;
+}
+
+.companyInfo p {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: #a0aec0;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #a0aec0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.formInput {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #f7fafc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.formInput::placeholder {
+    color: #6b7280;
+}
+
+.formTextarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #f7fafc;
+    font-size: 1rem;
+    min-height: 100px;
+    resize: vertical;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.formTextarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.formTextarea::placeholder {
+    color: #6b7280;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.submitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+}
+
+/* Alerts */
+.successAlert {
+    color: #68d391;
+    padding: 1rem;
+    background-color: rgba(72, 187, 120, 0.15);
+    border: 1px solid rgba(72, 187, 120, 0.3);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.errorAlert {
+    color: #fc8181;
+    padding: 1rem;
+    background-color: rgba(245, 101, 101, 0.15);
+    border: 1px solid rgba(245, 101, 101, 0.3);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}

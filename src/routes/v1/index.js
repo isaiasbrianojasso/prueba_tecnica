@@ -7,7 +7,7 @@ const registrationRoutes = require('./eventRegistration.routes');
 
 const router = express.Router();
 
-// Ruta de bienvenida/documentación
+// Ruta de bienvenida /muestra todas a las api disposnible 
 router.get('/', (req, res) => {
   res.status(200).json({
     message: 'API de Gestión de Eventos - Endpoints disponibles',

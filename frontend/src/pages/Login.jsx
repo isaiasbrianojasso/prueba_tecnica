@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import styles from './Login.module.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
         const result = await login(email, password);
+        setLoading(false);
         if (result.success) {
             navigate('/');
         } else {
@@ -21,34 +25,69 @@ const Login = () => {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '2rem auto', padding: '2rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-            <h2>Iniciar Sesión</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        style={{ width: '100%', padding: '0.5rem' }}
-                    />
+        <div className={styles.container}>
+            <div className={styles.card}>
+                {/* Header */}
+                <div className={styles.header}>
+                    <div className={styles.headerOverlay}></div>
+                    <h1 className={styles.title}>Bienvenido</h1>
+                    <p className={styles.subtitle}>Ingresa a tu cuenta</p>
                 </div>
-                <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>Contraseña:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        style={{ width: '100%', padding: '0.5rem' }}
-                    />
+
+                {/* Form */}
+                <div className={styles.formContainer}>
+                    {error && (
+                        <div className={styles.errorBox}>
+                            <span>⚠</span>
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                placeholder="tu@email.com"
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Contraseña</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                                className={styles.input}
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={styles.submitButton}
+                        >
+                            {loading ? 'Ingresando...' : 'Ingresar'}
+                        </button>
+                    </form>
                 </div>
-                <button type="submit" style={{ width: '100%', padding: '0.75rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                    Ingresar
-                </button>
-            </form>
+
+                {/* Footer */}
+                <div className={styles.footer}>
+                    <p className={styles.footerText}>
+                        ¿No tienes cuenta?
+                        <Link to="/register" className={styles.link}>
+                            Regístrate
+                        </Link>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };
