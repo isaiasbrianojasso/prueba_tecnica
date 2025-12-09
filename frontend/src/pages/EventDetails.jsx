@@ -47,7 +47,7 @@ const EventDetails = () => {
         try {
             await api.post(`/events/${id}/register`);
             setIsRegistered(true);
-            setMessage('¡Te has registrado exitosamente!');
+            setMessage('Registro completado');
             setMessageType('success');
         } catch (err) {
             setMessage(err.response?.data?.message || 'Error al registrarse');

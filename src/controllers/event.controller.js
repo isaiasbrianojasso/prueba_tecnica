@@ -2,11 +2,9 @@ const eventService = require('../services/event.service');
 
 const createEvent = async (req, res, next) => {
   try {
-    // El ADMIN solo puede crear eventos para su propia empresa
-    // Se ignora el companyId enviado en el body y se usa el del usuario autenticado
     const eventData = {
       ...req.body,
-      companyId: req.user.companyId, // Forzar la empresa del usuario autenticado
+      companyId: req.user.companyId,
     };
     const event = await eventService.create(eventData);
     res.status(201).json(event);
@@ -21,14 +19,13 @@ const getAllEvents = async (req, res, next) => {
       page, limit, companyId, dateFrom, dateTo, upcoming,
     } = req.query;
 
-    // Si el usuario no es ADMIN, forzar filtro por su propia empresa
-    let filterCompanyId = companyId;
+    let cid = companyId;
     if (req.user && req.user.role !== 'ADMIN') {
-      filterCompanyId = req.user.companyId;
+      cid = req.user.companyId;
     }
 
     const filters = {
-      companyId: filterCompanyId, dateFrom, dateTo, upcoming,
+      companyId: cid, dateFrom, dateTo, upcoming,
     };
     const result = await eventService.getAll(page, limit, filters);
     res.status(200).json(result);
@@ -41,12 +38,12 @@ const getEventById = async (req, res, next) => {
   try {
     const event = await eventService.getById(req.params.id);
 
-    // Si el usuario no es ADMIN, verificar que el evento pertenece a su empresa
+    // validar acceso
     if (req.user && req.user.role !== 'ADMIN') {
       if (event.companyId !== req.user.companyId) {
-        const error = new Error('No tienes permiso para ver este evento');
-        error.statusCode = 403;
-        throw error;
+        const err = new Error('Acceso denegado');
+        err.statusCode = 403;
+        throw err;
       }
     }
 
