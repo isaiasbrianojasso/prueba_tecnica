@@ -22,7 +22,6 @@ const startServer = async () => {
 ╠═══════════════════════════════════════════╣
 ║  Entorno: ${ENVIRONMENT.padEnd(20)}       ║
 ║  Servidor: http://localhost:${PORT}       ║
-║  Health: http://localhost:${PORT}/health  ║
 ║ Iniciado: ${new Date().toLocaleString()}  ║
 ╚═══════════════════════════════════════════╝
       `);

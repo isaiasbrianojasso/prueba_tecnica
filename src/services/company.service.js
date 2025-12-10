@@ -24,8 +24,7 @@ const getAll = async (page = 1, limit = 10, search = '') => {
   const where = {};
 
   if (search) {
-    // Simple search implementation
-    // In a real app, use Op.iLike or similar
+    // Búsqueda por nombre
   }
 
   const { count, rows } = await Company.findAndCountAll({

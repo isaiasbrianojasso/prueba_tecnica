@@ -24,11 +24,13 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    //roles del usuario ADMIN Y EMPLEADO
     role: {
       type: DataTypes.ENUM('ADMIN', 'EMPLOYEE'),
       defaultValue: 'EMPLOYEE',
       allowNull: false,
     },
+    //DATO RELACIONAL EMPRESA
     companyId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -56,7 +58,7 @@ module.exports = (sequelize) => {
     },
   });
 
-  // Método de instancia para comparar contraseñas
+  // Método de instancia para comparar contraseñas en bcrypt
   Employee.prototype.comparePassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
   };

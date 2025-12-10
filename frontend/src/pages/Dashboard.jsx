@@ -22,9 +22,9 @@ const Dashboard = () => {
     });
     const [createError, setCreateError] = useState('');
     const [createSuccess, setCreateSuccess] = useState('');
+    const [editingEvent, setEditingEvent] = useState(null);
 
-    // usuarios
-    // TODO: mover a un hook separado
+    // Estado de usuarios
     const [users, setUsers] = useState([]);
     const [usersLoading, setUsersLoading] = useState(false);
     const [usersError, setUsersError] = useState('');
@@ -99,6 +99,56 @@ const Dashboard = () => {
         }
     };
 
+    // Funciones para CRUD de eventos
+    const resetEventForm = () => {
+        setNewEvent({ title: '', description: '', date: '', location: '', capacity: '' });
+        setEditingEvent(null);
+        setCreateError('');
+        setCreateSuccess('');
+    };
+
+    const handleUpdateEvent = async (e) => {
+        e.preventDefault();
+        setCreateError('');
+        setCreateSuccess('');
+
+        try {
+            await api.put(`/events/${editingEvent.id}`, {
+                ...newEvent,
+                capacity: parseInt(newEvent.capacity) || 0
+            });
+            setCreateSuccess('Evento actualizado');
+            resetEventForm();
+            fetchEvents();
+            setTimeout(() => setActiveTab('list'), 1500);
+        } catch (err) {
+            setCreateError(err.response?.data?.message || 'Error al actualizar evento');
+        }
+    };
+
+    const handleDeleteEvent = async (eventId, eventTitle) => {
+        if (!window.confirm(`¿Eliminar evento "${eventTitle}"?`)) return;
+
+        try {
+            await api.delete(`/events/${eventId}`);
+            setCreateSuccess('Evento eliminado');
+            fetchEvents();
+        } catch (err) {
+            setCreateError(err.response?.data?.message || 'Error al eliminar evento');
+        }
+    };
+
+    const startEditEvent = (eventToEdit) => {
+        setEditingEvent(eventToEdit);
+        setNewEvent({
+            title: eventToEdit.title,
+            description: eventToEdit.description || '',
+            date: eventToEdit.date ? new Date(eventToEdit.date).toISOString().slice(0, 16) : '',
+            location: eventToEdit.location || '',
+            capacity: eventToEdit.capacity?.toString() || ''
+        });
+        setActiveTab('create');
+    };
 
     const resetUserForm = () => {
         setUserForm({ name: '', email: '', password: '', role: 'EMPLOYEE' });
@@ -249,24 +299,60 @@ const Dashboard = () => {
                                         <p className={styles.eventLocation}>{event.location}</p>
                                     )}
                                     <p className={styles.eventDescription}>{event.description}</p>
-                                    <Link to={`/events/${event.id}`} className={styles.viewDetailsLink}>
-                                        Ver Detalles
-                                    </Link>
+                                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+                                        <Link to={`/events/${event.id}`} className={styles.viewDetailsLink}>
+                                            Ver Detalles
+                                        </Link>
+                                        {user?.role === 'ADMIN' && (
+                                            <>
+                                                <button
+                                                    onClick={() => startEditEvent(event)}
+                                                    style={{
+                                                        padding: '0.5rem 1rem',
+                                                        background: 'transparent',
+                                                        border: '1px solid #667eea',
+                                                        color: '#667eea',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                >
+                                                    Editar
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteEvent(event.id, event.title)}
+                                                    style={{
+                                                        padding: '0.5rem 1rem',
+                                                        background: 'transparent',
+                                                        border: '1px solid #fc8181',
+                                                        color: '#fc8181',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     </>
                 )}
 
-                {/* Crear Evento */}
+                {/* Crear/Editar Evento */}
                 {activeTab === 'create' && (
                     <div className={styles.createFormContainer}>
-                        <h2 className={styles.sectionTitle}>Crear Nuevo Evento</h2>
+                        <h2 className={styles.sectionTitle}>
+                            {editingEvent ? 'Editar Evento' : 'Crear Nuevo Evento'}
+                        </h2>
 
                         {createError && <div className={styles.errorAlert}>{createError}</div>}
                         {createSuccess && <div className={styles.successAlert}>{createSuccess}</div>}
 
-                        <form onSubmit={handleCreateEvent} className={styles.form}>
+                        <form onSubmit={editingEvent ? handleUpdateEvent : handleCreateEvent} className={styles.form}>
                             <div className={styles.companyInfo}>
                                 <span>Empresa: </span>
                                 <span>{user?.companyName || `ID: ${user?.companyId}`}</span>
@@ -330,9 +416,20 @@ const Dashboard = () => {
                                 />
                             </div>
 
-                            <button type="submit" className={styles.submitButton}>
-                                Crear Evento
-                            </button>
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                <button type="submit" className={styles.submitButton}>
+                                    {editingEvent ? 'Guardar Cambios' : 'Crear Evento'}
+                                </button>
+                                {editingEvent && (
+                                    <button
+                                        type="button"
+                                        className={styles.navButton}
+                                        onClick={resetEventForm}
+                                    >
+                                        Cancelar
+                                    </button>
+                                )}
+                            </div>
                         </form>
                     </div>
                 )}

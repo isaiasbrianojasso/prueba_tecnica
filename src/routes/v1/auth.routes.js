@@ -4,9 +4,8 @@ const router = express.Router();
 
 const { body } = require('express-validator');
 
-// Importar controladores (crearemos después)
+// Controlador de autenticación
 const authController = require('../../controllers/auth.controller');
-// Update the path if the middleware is located elsewhere, for example:
 const validate = require('../../middleware/validation.middleware');
 
 // Validaciones para registro

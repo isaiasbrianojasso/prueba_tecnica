@@ -270,4 +270,4 @@ npm run dev
 
 ---
 
-*Documentación generada para el proyecto de gestión de eventos corporativos.*
+*Sistema de Gestión de Eventos Corporativos - Diciembre 2024*

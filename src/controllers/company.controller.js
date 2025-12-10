@@ -1,5 +1,5 @@
 const companyService = require('../services/company.service');
-
+//crea una empresa
 const createCompany = async (req, res, next) => {
   try {
     const company = await companyService.create(req.body);
@@ -8,7 +8,7 @@ const createCompany = async (req, res, next) => {
     next(error);
   }
 };
-
+//obtiene todas las empresas
 const getAllCompanies = async (req, res, next) => {
   try {
     const { page, limit, search } = req.query;
@@ -18,7 +18,7 @@ const getAllCompanies = async (req, res, next) => {
     next(error);
   }
 };
-
+//obtiene una empresa por id
 const getCompanyById = async (req, res, next) => {
   try {
     const company = await companyService.getById(req.params.id);
@@ -27,7 +27,7 @@ const getCompanyById = async (req, res, next) => {
     next(error);
   }
 };
-
+//actualiza una empresa
 const updateCompany = async (req, res, next) => {
   try {
     const company = await companyService.update(req.params.id, req.body);
@@ -36,7 +36,7 @@ const updateCompany = async (req, res, next) => {
     next(error);
   }
 };
-
+//elimina una empresa
 const deleteCompany = async (req, res, next) => {
   try {
     const result = await companyService.delete(req.params.id);
@@ -45,7 +45,7 @@ const deleteCompany = async (req, res, next) => {
     next(error);
   }
 };
-
+//obtiene los empleados de una empresa
 const getCompanyEmployees = async (req, res, next) => {
   try {
     const employees = await companyService.getCompanyEmployees(req.params.id);
@@ -54,7 +54,7 @@ const getCompanyEmployees = async (req, res, next) => {
     next(error);
   }
 };
-
+//obtiene los eventos de una empresa
 const getCompanyEvents = async (req, res, next) => {
   try {
     const events = await companyService.getCompanyEvents(req.params.id);

@@ -1,5 +1,4 @@
 const authorize = (allowedRoles = []) => {
-  // Si roles es un string, convertirlo a array
   const roles = typeof allowedRoles === 'string' ? [allowedRoles] : allowedRoles;
 
   return (req, res, next) => {
@@ -7,11 +6,11 @@ const authorize = (allowedRoles = []) => {
     if (!req.user) {
       return res.status(401).json({
         error: 'No autenticado',
-        message: 'Debe iniciar sesión para acceder a este recurso',
+        message: 'Debe iniciar sesion',
       });
     }
 
-    // Verificar si el usuario tiene uno de los roles requeridos
+    // Verificar si el usuario es admin
     if (roles.length && !roles.includes(req.user.role)) {
       return res.status(403).json({
         error: 'Acceso denegado',
@@ -31,7 +30,7 @@ const isOwnerOrAdmin = (resourceOwnerIdField = 'userId') => (req, res, next) => 
     return next();
   }
 
-  // Verificar si el usuario es dueño del recurso
+
   const resourceOwnerId = req.params[resourceOwnerIdField] || req.body[resourceOwnerIdField];
 
   if (req.user.id === resourceOwnerId) {

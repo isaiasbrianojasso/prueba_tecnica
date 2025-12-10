@@ -48,7 +48,7 @@ const getEventAttendees = async (eventId, page = 1, limit = 10, checkedIn = unde
     include: [
       {
         model: Employee,
-        as: 'employee', // Note: Check association alias in index.js
+        as: 'employee',
         attributes: ['id', 'name', 'email'],
       },
     ],

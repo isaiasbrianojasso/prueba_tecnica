@@ -1,5 +1,5 @@
 const authService = require('../services/auth.service');
-
+//recibe email y password Registro
 const register = async (req, res, next) => {
   try {
     const result = await authService.register(req.body);
@@ -18,7 +18,7 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
-
+//se refresca el token cuando expira en backend 
 const refreshToken = async (req, res, next) => {
   try {
     const { token } = req.body;
@@ -31,15 +31,15 @@ const refreshToken = async (req, res, next) => {
     next(error);
   }
 };
-
+//cierra sesion
 const logout = async (req, res) => {
   res.status(200).json({ message: 'Sesión cerrada exitosamente' });
 };
-
+//obtiene el usuario actual
 const getCurrentUser = async (req, res) => {
   res.status(200).json({ user: req.user });
 };
-
+//exporta las funciones
 module.exports = {
   register,
   login,

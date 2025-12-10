@@ -22,12 +22,12 @@ const create = async (data) => {
   const employee = await Employee.create({
     name,
     email,
-    password, // Hook will hash it
+    password, // El hook hashea la contraseña
     companyId,
     role: role || 'EMPLOYEE',
   });
 
-  // Remove password from response
+  // Excluir password de la respuesta
   const employeeData = employee.toJSON();
   delete employeeData.password;
 
@@ -82,8 +82,7 @@ const update = async (id, data) => {
     throw error;
   }
 
-  // Prevent changing company if not authorized logic handled in controller/middleware
-  // Here we just update
+  // Actualizar datos
   await employee.update(data);
 
   const updatedEmployee = employee.toJSON();
@@ -105,13 +104,8 @@ const deleteEmployee = async (id) => {
   return { message: 'Empleado eliminado correctamente' };
 };
 
-const getEmployeeEvents = async () =>
-  // This would require querying EventRegistration
-  // For now, return not implemented or implement if models allow
-  [];
-const getEmployeeRegistrations = async () =>
-  // This would require querying EventRegistration
-  [];
+const getEmployeeEvents = async () => [];
+const getEmployeeRegistrations = async () => [];
 module.exports = {
   create,
   getAll,

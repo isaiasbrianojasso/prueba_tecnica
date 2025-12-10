@@ -82,8 +82,7 @@ const EventDetails = () => {
     if (error) {
         return (
             <div className={styles.errorContainer}>
-                <span className={styles.errorIcon}>😕</span>
-                <h2 className={styles.errorTitle}>Oops!</h2>
+                <h2 className={styles.errorTitle}>Error!</h2>
                 <p>{error}</p>
                 <button onClick={() => navigate('/')} className={styles.backButton}>
                     ← Volver al inicio
@@ -95,7 +94,6 @@ const EventDetails = () => {
     if (!event) {
         return (
             <div className={styles.errorContainer}>
-                <span className={styles.errorIcon}>🔍</span>
                 <h2 className={styles.errorTitle}>Evento no encontrado</h2>
                 <button onClick={() => navigate('/')} className={styles.backButton}>
                     ← Volver al inicio

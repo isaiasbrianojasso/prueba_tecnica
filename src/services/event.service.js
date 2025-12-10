@@ -54,7 +54,6 @@ const getById = async (id) => {
   const event = await Event.findByPk(id, {
     include: [
       { model: Company, as: 'company', attributes: ['id', 'name'] },
-      // Could include attendees count here
     ],
   });
 
