@@ -184,14 +184,14 @@ prueba_tecnica/
 
 | Funcionalidad | EMPLOYEE | ADMIN |
 |---------------|----------|-------|
-| Ver eventos de su empresa | ✅ | ✅ |
-| Ver todos los eventos | ❌ | ✅ |
-| Crear eventos | ❌ | ✅ |
-| Editar eventos | ❌ | ✅ |
-| Eliminar eventos | ❌ | ✅ |
-| Inscribirse a eventos | ✅ | ✅ |
-| Ver lista de asistentes | ❌ | ✅ |
-| Gestionar usuarios | ❌ | ✅ |
+| Ver eventos de su empresa | Si | Si |
+| Ver todos los eventos | No | Si |
+| Crear eventos | No | Si |
+| Editar eventos | No | Si |
+| Eliminar eventos | No | Si |
+| Inscribirse a eventos | Si | Si |
+| Ver lista de asistentes | No | Si |
+| Gestionar usuarios | No | Si |
 
 ---
 

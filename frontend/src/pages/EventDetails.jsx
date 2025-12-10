@@ -165,7 +165,7 @@ const EventDetails = () => {
                         {/* Mensaje de feedback */}
                         {message && (
                             <div className={messageType === 'success' ? styles.messageSuccess : styles.messageError}>
-                                <span>{messageType === 'success' ? '✓' : '⚠'}</span>
+                                <span>{messageType === 'success' ? 'OK' : '!'}</span>
                                 <span>{message}</span>
                             </div>
                         )}
@@ -174,7 +174,7 @@ const EventDetails = () => {
                         <div className={styles.buttonContainer}>
                             {isRegistered ? (
                                 <div className={styles.registeredButton}>
-                                    <span>✓</span>
+                                    <span>OK</span>
                                     Ya estás registrado
                                 </div>
                             ) : (
@@ -214,7 +214,7 @@ const EventDetails = () => {
                                                     </div>
                                                 </div>
                                                 <span className={att.checkedIn ? styles.statusCheckedIn : styles.statusPending}>
-                                                    {att.checkedIn ? '✓ Checked In' : ' Pendiente'}
+                                                    {att.checkedIn ? 'Checked In' : 'Pendiente'}
                                                 </span>
                                             </li>
                                         ))}

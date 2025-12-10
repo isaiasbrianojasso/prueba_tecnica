@@ -38,7 +38,7 @@ const Login = () => {
                 <div className={styles.formContainer}>
                     {error && (
                         <div className={styles.errorBox}>
-                            <span>⚠</span>
+                            <span>!</span>
                             <span>{error}</span>
                         </div>
                     )}

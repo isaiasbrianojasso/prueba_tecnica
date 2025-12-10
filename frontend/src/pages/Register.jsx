@@ -78,7 +78,7 @@ const Register = () => {
                     Completa UNO de los siguientes campos:
                 </p>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}> Crear Empresa Nueva:</label>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>Crear Empresa Nueva:</label>
                     <input
                         type="text"
                         name="companyName"
@@ -89,7 +89,7 @@ const Register = () => {
                     />
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}> O Unirse a Empresa Existente:</label>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>O Unirse a Empresa Existente:</label>
                     <input
                         type="text"
                         name="companyId"
