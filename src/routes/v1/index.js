@@ -10,8 +10,7 @@ const router = express.Router();
 // Ruta de bienvenida /muestra todas a las api disposnible 
 router.get('/', (req, res) => {
   res.status(200).json({
-    message: 'API de Gestión de Eventos - Endpoints disponibles',
-    version: '1.0.0',
+    message: 'Endpoints',
     endpoints: {
       auth: {
         'POST /api/auth/register': 'Registrar nuevo usuario',
